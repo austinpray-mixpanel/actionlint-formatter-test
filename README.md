@@ -1,0 +1,1 @@
+# actionlint-formatter-test
