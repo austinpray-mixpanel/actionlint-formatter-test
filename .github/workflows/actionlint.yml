@@ -1,0 +1,15 @@
+name: GitHub Actions Workflow Linting
+on:
+  pull_request:
+jobs:
+  actionlint:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run rhysd/actionlint
+        uses: docker://rhysd/actionlint:1.6.27
+        with:
+          # https://github.com/rhysd/actionlint/blob/main/docs/usage.md
+          args: >-
+            -verbose
+            -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}%0A```%0A{{replace $err.Snippet "\\n" "%0A"}}%0A```\n{{end}}'
